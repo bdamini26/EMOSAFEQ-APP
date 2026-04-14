@@ -1,0 +1,87 @@
+{
+  "entities": {
+    "Contact": {
+      "title": "Contact",
+      "description": "A trusted emergency contact",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user who owns this contact" },
+        "name": { "type": "string", "description": "Name of the contact" },
+        "phone": { "type": "string", "description": "Phone number of the contact" },
+        "isPrimary": { "type": "boolean", "description": "Whether this is the primary emergency contact" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "phone", "isPrimary"]
+    },
+    "SafeZone": {
+      "title": "SafeZone",
+      "description": "A location where the user feels safe",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "address": { "type": "string" },
+        "type": { "type": "string", "enum": ["home", "work", "college", "other"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "address", "type"]
+    },
+    "EmergencyLog": {
+      "title": "EmergencyLog",
+      "description": "Log of emergency alerts triggered",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["MANUAL", "SCREAM", "TIMER_EXPIRED", "BT_LOST"] },
+        "location": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "audioCaptured": { "type": "boolean" },
+        "aiAssessment": {
+          "type": "object",
+          "properties": {
+            "assessment": { "type": "string" },
+            "threatLevel": { "type": "string" },
+            "recommendation": { "type": "string" }
+          }
+        }
+      },
+      "required": ["userId", "type", "timestamp"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "User's app configuration",
+      "type": "object",
+      "properties": {
+        "unlockCode": { "type": "string" },
+        "stealthMode": { "type": "boolean" },
+        "autoSms": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["unlockCode"]
+    }
+  },
+  "firestore": {
+    "/contacts/{contactId}": {
+      "schema": "Contact",
+      "description": "User's trusted contacts"
+    },
+    "/safe_zones/{zoneId}": {
+      "schema": "SafeZone",
+      "description": "User's safe zones"
+    },
+    "/emergency_logs/{logId}": {
+      "schema": "EmergencyLog",
+      "description": "History of emergency events"
+    },
+    "/settings/{userId}": {
+      "schema": "Settings",
+      "description": "User's security and app settings"
+    }
+  }
+}

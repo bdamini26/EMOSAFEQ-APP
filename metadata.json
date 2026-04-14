@@ -1,0 +1,5 @@
+{
+  "name": "EMOSAFEQ",
+  "description": "A discreet personal safety application disguised as a calculator, featuring emergency alerts, GPS tracking, and scream detection.",
+  "requestFramePermissions": ["microphone", "geolocation"]
+}
